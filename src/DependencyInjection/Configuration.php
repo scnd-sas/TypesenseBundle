@@ -82,7 +82,7 @@ class Configuration implements ConfigurationInterface
                                         ->end()
                                         ->arrayNode('embed')
                                             ->children()
-                                                ->scalarNode('from')->end()
+                                                ->arrayNode('from')->scalarPrototype()->end()
                                                 ->variableNode('model_config')->end()
                                             ->end()
                                         ->end()
