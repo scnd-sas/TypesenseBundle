@@ -12,8 +12,8 @@ class CollectionManager
     public function __construct(
         private CollectionClient $collectionClient,
         private AbstractTransformer $transformer,
+        private FieldManagerInterface $fieldManager,
         private array $collectionDefinitions,
-        private bool $embedAllowed = true,
     ) {
     }
 
@@ -57,7 +57,7 @@ class CollectionManager
         $fieldDefinitions = $definition['fields'];
         $fields           = [];
         foreach ($fieldDefinitions as $fieldDefinition) {
-            if (!$this->embedAllowed && isset($fieldDefinition['embed'])) {
+            if (!$fieldDefinition = $this->fieldManager->getDefinition($fieldDefinition)) {
                 continue;
             }
 

@@ -151,7 +151,7 @@ class ACSEOTypesenseExtension extends Extension
     private function loadCollectionManager(ContainerBuilder $container)
     {
         $managerDef = $container->getDefinition('typesense.collection_manager');
-        $managerDef->replaceArgument(2, $this->collectionsConfig);
+        $managerDef->replaceArgument(3, $this->collectionsConfig);
     }
 
     /**
