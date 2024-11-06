@@ -9,15 +9,12 @@ use ACSEO\TypesenseBundle\Transformer\AbstractTransformer;
 
 class CollectionManager
 {
-    private $collectionDefinitions;
-    private $collectionClient;
-    private $transformer;
-
-    public function __construct(CollectionClient $collectionClient, AbstractTransformer $transformer, array $collectionDefinitions)
-    {
-        $this->collectionDefinitions = $collectionDefinitions;
-        $this->collectionClient      = $collectionClient;
-        $this->transformer           = $transformer;
+    public function __construct(
+        private CollectionClient $collectionClient,
+        private AbstractTransformer $transformer,
+        private array $collectionDefinitions,
+        private bool $embedAllowed = true,
+    ) {
     }
 
     public function getCollectionDefinitions()
@@ -54,17 +51,16 @@ class CollectionManager
         $this->collectionClient->delete($definition['typesense_name']);
     }
 
-    public function deleteCollextion($collectionDefinitionName)
-    {
-        return $this->deleteCollection($collectionDefinitionName);
-    }
-
     public function createCollection($collectionDefinitionName)
     {
         $definition       = $this->collectionDefinitions[$collectionDefinitionName];
         $fieldDefinitions = $definition['fields'];
         $fields           = [];
-        foreach ($fieldDefinitions as $key => $fieldDefinition) {
+        foreach ($fieldDefinitions as $fieldDefinition) {
+            if (!$this->embedAllowed) {
+                unset($fieldDefinition['embed']);
+            }
+
             $fieldDefinition['type'] = $this->transformer->castType($fieldDefinition['type']);
             $fields[]                = $fieldDefinition;
         }
