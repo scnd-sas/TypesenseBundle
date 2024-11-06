@@ -12,7 +12,7 @@ use ACSEO\TypesenseBundle\Finder\CollectionFinder;
 use ACSEO\TypesenseBundle\Finder\TypesenseQuery;
 use ACSEO\TypesenseBundle\Manager\CollectionManager;
 use ACSEO\TypesenseBundle\Manager\DocumentManager;
-use ACSEO\TypesenseBundle\Manager\FieldManager;
+use ACSEO\TypesenseBundle\Manager\FieldManagerChain;
 use ACSEO\TypesenseBundle\Tests\Functional\Entity\Author;
 use ACSEO\TypesenseBundle\Tests\Functional\Entity\Book;
 use ACSEO\TypesenseBundle\Transformer\DoctrineToTypesenseTransformer;
@@ -99,7 +99,7 @@ class AllowNullConnexionTest extends KernelTestCase
         $collectionClient      = new CollectionClient($typeSenseClient);
         $container             = $this->createMock(ContainerInterface::class);
         $transformer           = new DoctrineToTypesenseTransformer($collectionDefinitions, $propertyAccessor, $container);
-        $fieldManager          = new FieldManager();
+        $fieldManager          = new FieldManagerChain();
         $collectionManager     = new CollectionManager($collectionClient, $transformer, $fieldManager, $collectionDefinitions);
 
         $command = new CreateCommand($collectionManager);
@@ -123,7 +123,7 @@ class AllowNullConnexionTest extends KernelTestCase
         $collectionClient      = new CollectionClient($typeSenseClient);
         $container             = $this->createMock(ContainerInterface::class);
         $transformer           = new DoctrineToTypesenseTransformer($collectionDefinitions, $propertyAccessor, $container);
-        $fieldManager          = new FieldManager();
+        $fieldManager          = new FieldManagerChain();
         $documentManager       = new DocumentManager($typeSenseClient);
         $collectionManager     = new CollectionManager($collectionClient, $transformer, $fieldManager, $collectionDefinitions);
         $em                    = $this->getMockedEntityManager($books);

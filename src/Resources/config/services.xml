@@ -37,13 +37,15 @@
             <argument type="service" id="typesense.client"/>
         </service>
         <service id="ACSEO\TypesenseBundle\Client\CollectionClient" alias="typesense.collection_client"/>
-        <service id="typesense.field_manager" class="ACSEO\TypesenseBundle\Manager\FieldManager"/>
+        <service id="typesense.field_manager.chain" class="ACSEO\TypesenseBundle\Manager\FieldManagerChain">
+            <argument type="tagged_iterator" tag="typesense.field_manager" />
+        </service>
         <!-- typesense collection manager -->
         <service id="typesense.collection_manager" class="ACSEO\TypesenseBundle\Manager\CollectionManager"
                  public="true">
             <argument type="service" id="typesense.collection_client"/>
             <argument type="service" id="typesense.transformer.doctrine_to_typesense"/>
-            <argument type="service" id="typesense.field_manager"/>
+            <argument type="service" id="typesense.field_manager.chain"/>
             <argument/> <!-- collections -->
         </service>
         <service id="ACSEO\TypesenseBundle\Manager\CollectionManager" alias="typesense.collection_manager"/>

@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace ACSEO\TypesenseBundle\DependencyInjection;
 
+use ACSEO\TypesenseBundle\Manager\FieldManagerInterface;
 use Symfony\Component\Config\FileLocator;
 use Symfony\Component\DependencyInjection\ChildDefinition;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
@@ -44,6 +45,9 @@ class ACSEOTypesenseExtension extends Extension
             // No Host or collection are defined
             return;
         }
+
+        $container->registerForAutoconfiguration(FieldManagerInterface::class)
+            ->addTag('typesense.field_manager');
 
         $loader = new XMlFileLoader(
             $container,

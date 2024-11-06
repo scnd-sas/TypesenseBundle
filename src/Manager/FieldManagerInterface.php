@@ -6,5 +6,5 @@ namespace ACSEO\TypesenseBundle\Manager;
 
 interface FieldManagerInterface
 {
-    public function getDefinition(array $original): array;
+    public function getDefinition(string $collectionName, array $fieldDefinition): array;
 }

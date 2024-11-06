@@ -57,7 +57,7 @@ class CollectionManager
         $fieldDefinitions = $definition['fields'];
         $fields           = [];
         foreach ($fieldDefinitions as $fieldDefinition) {
-            if (!$fieldDefinition = $this->fieldManager->getDefinition($fieldDefinition)) {
+            if (!$fieldDefinition = $this->fieldManager->getDefinition($collectionDefinitionName, $fieldDefinition)) {
                 continue;
             }
 

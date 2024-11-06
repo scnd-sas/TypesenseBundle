@@ -8,7 +8,7 @@ use ACSEO\TypesenseBundle\Client\CollectionClient;
 use ACSEO\TypesenseBundle\Manager\DocumentManager;
 use ACSEO\TypesenseBundle\EventListener\TypesenseIndexer;
 use ACSEO\TypesenseBundle\Manager\CollectionManager;
-use ACSEO\TypesenseBundle\Manager\FieldManager;
+use ACSEO\TypesenseBundle\Manager\FieldManagerChain;
 use ACSEO\TypesenseBundle\Tests\Functional\Entity\Book;
 use ACSEO\TypesenseBundle\Tests\Functional\Entity\Author;
 use ACSEO\TypesenseBundle\Transformer\DoctrineToTypesenseTransformer;
@@ -39,7 +39,7 @@ class TypesenseIndexerTest extends TestCase
     private function initialize($collectionDefinitions)
     {
         $transformer  = new DoctrineToTypesenseTransformer($collectionDefinitions, $this->propertyAccessor, $this->container->reveal());
-        $fieldManager = new FieldManager();
+        $fieldManager = new FieldManagerChain();
 
         $collectionClient = $this->prophesize(CollectionClient::class);
 
