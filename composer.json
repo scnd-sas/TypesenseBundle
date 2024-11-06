@@ -25,7 +25,8 @@
         "phpunit/phpunit": "^9.5",
         "symfony/yaml": "^3.4 || ^4.4 || ^5.4 || ^6.0",
         "dg/bypass-finals": "^1.4",
-        "phpspec/prophecy-phpunit": "^2.0"
+        "phpspec/prophecy-phpunit": "^2.0",
+        "doctrine/common": "^3.4"
     },
     "autoload": {
         "psr-4": { "ACSEO\\TypesenseBundle\\": "src/" }
