@@ -57,8 +57,8 @@ class CollectionManager
         $fieldDefinitions = $definition['fields'];
         $fields           = [];
         foreach ($fieldDefinitions as $fieldDefinition) {
-            if (!$this->embedAllowed) {
-                unset($fieldDefinition['embed']);
+            if (!$this->embedAllowed && isset($fieldDefinition['embed'])) {
+                continue;
             }
 
             $fieldDefinition['type'] = $this->transformer->castType($fieldDefinition['type']);
