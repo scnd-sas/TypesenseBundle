@@ -293,9 +293,10 @@ class TypesenseInteractionsTest extends KernelTestCase
     {
         return [
             'books' => [
-                'typesense_name' => 'books',
-                'entity'         => $entityClass,
-                'name'           => 'books',
+                'typesense_name'           => 'books',
+                'entity'                   => $entityClass,
+                'name'                     => 'books',
+                'default_sorting_field'    => 'sortable_id',
                 'fields'         => [
                     'id' => [
                         'name'             => 'id',
@@ -328,8 +329,21 @@ class TypesenseInteractionsTest extends KernelTestCase
                         'optional'         => true,
                         'entity_attribute' => 'publishedAt',
                     ],
+                    'embeddings' => [
+                        'name'             => 'embeddings',
+                        'type'             => 'float[]',
+                        'optional'         => false,
+                        "embed" => [
+                            "from" => [
+                                "author",
+                                "title"
+                            ],
+                            "model_config" => [
+                                "model_name" => "ts/e5-small"
+                            ]
+                        ],
+                    ],
                 ],
-                'default_sorting_field' => 'sortable_id',
             ],
         ];
     }

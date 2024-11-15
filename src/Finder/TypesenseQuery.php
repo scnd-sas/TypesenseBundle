@@ -17,8 +17,6 @@ class TypesenseQuery
         if ($queryBy !== null) {
             $this->addParameter('query_by', $queryBy);
         }
-
-        return $this;
     }
 
     public function getParameters(): array
