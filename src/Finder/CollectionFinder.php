@@ -49,7 +49,11 @@ class CollectionFinder implements CollectionFinderInterface
         $ids             = [];
         $primaryKeyInfos = $this->getPrimaryKeyInfo();
         foreach ($results->getResults() as $result) {
-            $ids[] = $result['document'][$primaryKeyInfos['documentAttribute']];
+            $id = $result['document'][$primaryKeyInfos['documentAttribute']];
+            if ('string' === $primaryKeyInfos['entityAttributeType']) {
+                $id = sprintf('\'%s\'', $id);
+            }
+            $ids[] = $id;
         }
 
         $hydratedResults = [];
@@ -57,7 +61,7 @@ class CollectionFinder implements CollectionFinderInterface
             $rsm = new ResultSetMappingBuilder($this->em);
             $rsm->addRootEntityFromClassMetadata($this->collectionConfig['entity'], 'e');
             $tableName       = $this->em->getClassMetadata($this->collectionConfig['entity'])->getTableName();
-            $query           = $this->em->createNativeQuery('SELECT * FROM '.$tableName.' WHERE '.$primaryKeyInfos['entityAttribute'].' IN ('.implode(', ', $ids).') ORDER BY FIELD(id,'.implode(', ', $ids).')', $rsm);
+            $query           = $this->em->createNativeQuery('SELECT * FROM '.$tableName.' WHERE '.$primaryKeyInfos['entityAttribute'].' IN ('.implode(', ', $ids).') ORDER BY FIELD(id, '.implode(', ', $ids).')', $rsm);
             $hydratedResults = $query->getResult();
         }
         $results->setHydratedHits($hydratedResults);
@@ -77,7 +81,11 @@ class CollectionFinder implements CollectionFinderInterface
     {
         foreach ($this->collectionConfig['fields'] as $name => $config) {
             if ($config['type'] === 'primary') {
-                return ['entityAttribute' => $config['entity_attribute'], 'documentAttribute' => $config['name']];
+                return [
+                    'entityAttribute' => $config['entity_attribute'],
+                    'entityAttributeType' => $config['entity_attribute_type'],
+                    'documentAttribute' => $config['name'],
+                ];
             }
         }
 

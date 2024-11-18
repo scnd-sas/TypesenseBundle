@@ -36,6 +36,7 @@ class Configuration implements ConfigurationInterface
                                 ->arrayPrototype()
                                     ->children()
                                         ->scalarNode('entity_attribute')->end()
+                                        ->scalarNode('entity_attribute_type')->end()
                                         ->scalarNode('name')
                                             ->isRequired()
                                             ->info('Name of the field')
