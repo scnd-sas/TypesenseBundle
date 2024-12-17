@@ -66,6 +66,8 @@ class ACSEOTypesenseExtension extends Extension
 
         $this->loadTransformer($container);
         $this->configureController($container);
+
+        $container->setParameter('typesense.collections_config', $this->collectionsConfig);
     }
 
     /**
@@ -173,9 +175,6 @@ class ACSEOTypesenseExtension extends Extension
     private function loadCollectionsFinder(ContainerBuilder $container)
     {
         foreach ($this->collectionsConfig as $name => $config) {
-            $collectionName = $config['name'];
-
-            $finderId  = sprintf('typesense.finder.%s', $collectionName);
             $finderId  = sprintf('typesense.finder.%s', $name);
             $finderDef = new ChildDefinition('typesense.finder');
             $finderDef->replaceArgument(2, $config);
@@ -198,12 +197,12 @@ class ACSEOTypesenseExtension extends Extension
                 $finderId = $config['finder_service'];
             }
 
-            $specifiFinderId  = sprintf('typesense.specificfinder.%s', $finderName);
-            $specifiFinderDef = new ChildDefinition('typesense.specificfinder');
-            $specifiFinderDef->replaceArgument(0, new Reference($finderId));
-            $specifiFinderDef->replaceArgument(1, $config['finder_parameters']);
+            $specificFinderId  = sprintf('typesense.specificfinder.%s', $finderName);
+            $specificFinderDef = new ChildDefinition('typesense.specificfinder');
+            $specificFinderDef->replaceArgument(0, new Reference($finderId));
+            $specificFinderDef->replaceArgument(1, $config['finder_parameters']);
 
-            $container->setDefinition($specifiFinderId, $specifiFinderDef);
+            $container->setDefinition($specificFinderId, $specificFinderDef);
         }
     }
 
