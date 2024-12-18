@@ -6,9 +6,13 @@ namespace ACSEO\TypesenseBundle\Finder;
 
 interface CollectionFinderInterface
 {
-    public function rawQuery(TypesenseQuery $query);
+    public function rawQuery(TypesenseQuery $query): TypesenseResponse;
 
-    public function query(TypesenseQuery $query);
+    public function query(TypesenseQuery $query): TypesenseResponse;
 
-    public function hydrateResponse(TypesenseResponse $response);
+    public function rawPostQuery(TypesenseQuery $query): TypesenseResponse;
+
+    public function postQuery(TypesenseQuery $query): TypesenseResponse;
+
+    public function hydrateResponse(TypesenseResponse $response): TypesenseResponse;
 }

@@ -21,7 +21,7 @@ class CollectionFinder implements CollectionFinderInterface
         $this->em               = $em;
     }
 
-    public function rawQuery(TypesenseQuery $query)
+    public function rawQuery(TypesenseQuery $query): TypesenseResponse
     {
         return $this->search($query);
     }
@@ -33,7 +33,25 @@ class CollectionFinder implements CollectionFinderInterface
         return $this->hydrate($results);
     }
 
-    public function hydrateResponse(TypesenseResponse $response) : TypesenseResponse
+    public function rawPostQuery(TypesenseQuery $query): TypesenseResponse
+    {
+        $query->collection($this->collectionConfig['typesense_name']);
+
+        $response = $this->collectionClient->multiSearch([$query]);
+
+        return new TypesenseResponse($response['results'][0]);
+    }
+
+    public function postQuery(TypesenseQuery $query): TypesenseResponse
+    {
+        $query->collection($this->collectionConfig['typesense_name']);
+
+        $response = $this->collectionClient->multiSearch([$query]);
+
+        return $this->hydrate(new TypesenseResponse($response['results'][0]));
+    }
+
+    public function hydrateResponse(TypesenseResponse $response): TypesenseResponse
     {
         return $this->hydrate($response);
     }

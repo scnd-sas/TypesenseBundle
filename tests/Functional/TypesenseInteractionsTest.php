@@ -168,6 +168,31 @@ class TypesenseInteractionsTest extends KernelTestCase
 
     /**
      * @depends testImportCommand
+     * @dataProvider importCommandProvider
+     */
+    public function testMultiSearchByTitle($nbBooks)
+    {
+        $typeSenseClient  = new TypesenseClient($_ENV['TYPESENSE_URL'], $_ENV['TYPESENSE_KEY']);
+        $collectionClient = new CollectionClient($typeSenseClient);
+        $book             = new Book(1, 'test', new Author('Nicolas Potier', 'France'), new \DateTime());
+
+        $em                    = $this->getMockedEntityManager([$book]);
+        $collectionDefinitions = $this->getCollectionDefinitions(Book::class);
+        $bookDefinition        = $collectionDefinitions['books'];
+
+        $bookFinder = new CollectionFinder($collectionClient, $em, $bookDefinition);
+        $query      = new TypesenseQuery(self::BOOK_TITLES[0], 'title');
+        $query->collection('books');
+        $query->numTypos(0);
+        $results = $bookFinder->rawPostQuery($query)->getResults();
+        self::assertCount(1, $results, "result doesn't contains 1 elements");
+        self::assertArrayHasKey('document', $results[0], "First item does not have the key 'document'");
+        self::assertArrayHasKey('highlights', $results[0], "First item does not have the key 'highlights'");
+        self::assertArrayHasKey('text_match', $results[0], "First item does not have the key 'text_match'");
+    }
+
+    /**
+     * @depends testImportCommand
      */
     public function testCreateAndDelete()
     {
@@ -191,7 +216,7 @@ class TypesenseInteractionsTest extends KernelTestCase
         // Init the listener
         $listener = new TypesenseIndexer($collectionManager, $documentManager, $transformer);
         // Create a LifecycleEventArgs with a book
-        $event = $this->getmockedEventCreate($book);
+        $event = $this->getMockedEventCreate($book);
 
         // First Persist
         $listener->postPersist($event);
@@ -205,7 +230,7 @@ class TypesenseInteractionsTest extends KernelTestCase
 
         // Update the object
         $book->setTitle('MARSEILLE');
-        $event = $this->getmockedEventCreate($book);
+        $event = $this->getMockedEventCreate($book);
 
         // First Update
         $listener->postUpdate($event);
@@ -403,7 +428,7 @@ class TypesenseInteractionsTest extends KernelTestCase
      *
      * @param $eventType
      */
-    private function getmockedEventCreate($book): MockObject&LifecycleEventArgs
+    private function getMockedEventCreate($book): MockObject&LifecycleEventArgs
     {
         $lifeCycleEvent = $this->createMock(LifecycleEventArgs::class);
         $lifeCycleEvent->method('getObject')->willReturn($book);

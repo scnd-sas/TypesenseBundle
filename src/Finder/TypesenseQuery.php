@@ -213,4 +213,11 @@ class TypesenseQuery
 
         return $this;
     }
+
+    public function collection(string $name): self
+    {
+        $this->searchParameters['collection'] = $name;
+
+        return $this;
+    }
 }
