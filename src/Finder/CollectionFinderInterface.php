@@ -15,4 +15,6 @@ interface CollectionFinderInterface
     public function postQuery(TypesenseQuery $query): TypesenseResponse;
 
     public function hydrateResponse(TypesenseResponse $response): TypesenseResponse;
+
+    public function config(): array;
 }

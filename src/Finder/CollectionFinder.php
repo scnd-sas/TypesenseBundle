@@ -56,6 +56,11 @@ class CollectionFinder implements CollectionFinderInterface
         return $this->hydrate($response);
     }
 
+    public function config(): array
+    {
+        return $this->collectionConfig;
+    }
+
     /**
      * Add database entities to Typesense Response
      *
