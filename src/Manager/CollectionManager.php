@@ -26,6 +26,10 @@ class CollectionManager
     {
         $managedClassNames = [];
         foreach ($this->collectionDefinitions as $name => $collectionDefinition) {
+            if (!$collectionDefinition['entity']) {
+                continue;
+            }
+
             $collectionName = $collectionDefinition['typesense_name'] ?? $name;
             $managedClassNames[$collectionName] = $collectionDefinition['entity'];
         }
@@ -72,7 +76,7 @@ class CollectionManager
         $this->collectionClient->create(
             $definition['typesense_name'],
             $fields,
-            $definition['default_sorting_field'],
+            $definition['default_sorting_field'] ?? null,
             $tokenSeparators,
             $symbolsToIndex,
             $definition['enable_nested_fields'] ?? false,

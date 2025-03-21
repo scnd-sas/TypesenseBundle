@@ -92,7 +92,7 @@ class Configuration implements ConfigurationInterface
                                     ->end()
                                 ->end()
                             ->end()
-                            ->scalarNode('default_sorting_field')->isRequired()->cannotBeEmpty()->end()
+                            ->scalarNode('default_sorting_field')->end()
                             ->arrayNode('finders')
                                 ->info('Entity specific finders declaration')
                                 ->useAttributeAsKey('name')

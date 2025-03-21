@@ -24,6 +24,10 @@ class DoctrineToTypesenseTransformer extends AbstractTransformer
 
         $this->entityToCollectionMapping = [];
         foreach ($this->collectionDefinitions as $collection => $collectionDefinition) {
+            if (!$collectionDefinition['entity']) {
+                continue;
+            }
+
             $this->entityToCollectionMapping[$collectionDefinition['entity']] = $collection;
         }
     }

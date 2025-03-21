@@ -67,11 +67,14 @@ class CollectionClient
         $options = [
             'name' => $name,
             'fields' => $fields,
-            'default_sorting_field' => $defaultSortingField,
             'token_separators' => $tokenSeparators,
             'symbols_to_index' => $symbolsToIndex,
             'enable_nested_fields' => $enableNestedFields,
         ];
+
+        if ($defaultSortingField) {
+            $options['default_sorting_field'] = $defaultSortingField;
+        }
 
         if ($embed) {
             $options['embed'] = $embed;

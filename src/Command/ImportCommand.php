@@ -132,6 +132,10 @@ class ImportCommand extends Command
         $collectionName = $collectionDefinition['typesense_name'];
         $class          = $collectionDefinition['entity'];
 
+        if (!$class) {
+            return 0;
+        }
+
         $nbEntities = (int) $this->em->createQuery('select COUNT(u.id) from '.$class.' u')->getSingleScalarResult();
 
         $nbPages = ceil($nbEntities / $maxPerPage);

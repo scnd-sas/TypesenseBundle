@@ -140,10 +140,10 @@ class ACSEOTypesenseExtension extends Extension
 
             $this->collectionsConfig[$name] = [
                 'typesense_name'        => $collectionName,
-                'entity'                => $config['entity'],
+                'entity'                => $config['entity'] ?? null,
                 'name'                  => $name,
                 'fields'                => $config['fields'],
-                'default_sorting_field' => $config['default_sorting_field'],
+                'default_sorting_field' => $config['default_sorting_field'] ?? null,
                 'token_separators'      => $config['token_separators'],
                 'symbols_to_index'      => $config['symbols_to_index'],
                 'enable_nested_fields'  => $config['enable_nested_fields'] ?? false,
