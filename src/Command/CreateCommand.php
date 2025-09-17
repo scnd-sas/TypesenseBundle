@@ -22,7 +22,7 @@ class CreateCommand extends Command
         $this->collectionManager = $collectionManager;
     }
 
-    protected function configure()
+    protected function configure(): void
     {
         $this
             ->setName(self::$defaultName)

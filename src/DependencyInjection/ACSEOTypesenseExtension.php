@@ -35,7 +35,7 @@ class ACSEOTypesenseExtension extends Extension
      */
     private $parameters = [];
 
-    public function load(array $configs, ContainerBuilder $container)
+    public function load(array $configs, ContainerBuilder $container): void
     {
         $configuration = new Configuration();
 

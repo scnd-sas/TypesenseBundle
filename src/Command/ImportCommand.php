@@ -42,7 +42,7 @@ class ImportCommand extends Command
         $this->transformer       = $transformer;
     }
 
-    protected function configure()
+    protected function configure(): void
     {
         $this
             ->setName(self::$defaultName)
